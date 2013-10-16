@@ -11,6 +11,7 @@
 		targets: {},
 		current: null,
 		paused: false,
+		inBounds: false,
 		max: null,
 		min: null,
 		
@@ -56,7 +57,10 @@
 		scrollCheck: function(scroll) {
 			if (scroll < spy.min || scroll > spy.max ) {
 				spy.deactivate(spy.current)
+				spy.exit();
+
 			} else {
+				!spy.inBounds && spy.enter();
 				for (var target in spy.targets) {
 					var top = spy.targets[target].top
 					,	bottom = spy.targets[target].bottom
@@ -70,16 +74,26 @@
 		},
 
 		deactivate: function(link) {
-			spy.$nav.trigger("deactivate", $(link));
+			spy.$nav.trigger("ns.deactivate", $(link));
 			$(link).removeClass("active");
 			spy.current = null
 		},
 	
 		activate: function(link) {
-			spy.$nav.trigger("activate", $(link));
+			spy.$nav.trigger("ns.activate", $(link));
 			$(link).addClass("active");
 
 			spy.current = link;
+		},
+
+		enter: function() {
+			spy.inBounds = true;
+			spy.$nav.trigger("ns.enter");
+		},
+
+		exit: function() {
+			spy.inBounds = false;
+			spy.$nav.trigger("ns.exit");
 		},
 
 		pause: function() {

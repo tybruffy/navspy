@@ -51,13 +51,20 @@ $(".scrollspy-nav").navspy({
 
 ##Events
 
-Navspy has two events that you can hook into.  An `activate` event and a `deactivate` event.  Here's how to use them:
+NavSpy has a few events that you can hook into. Here's how to use them:
 
 ```js
-$(".scrollspy-nav").bind("activate", function(e, link) {
+$(".scrollspy-nav").bind("ns.activate", function(e, link) {
 	// Your code here
 });
 ```
+
+Here is a list of the available events and the paramaters available to them.
+
+- ns.activate - (e, menu item ID)
+- ns.deactivate - (e, menu item ID)
+- ns.enter - (e)
+- ns.exit - (e)
 
 Currently, the `link` variable points to the ID of the menu item that is activating or deactivating.  In the future this should be updated to return a jQuery object instead.
 
