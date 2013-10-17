@@ -15,7 +15,7 @@
 		max: null,
 		min: null,
 		
-		init: function( newOffset ) {
+		_init: function( newOffset ) {
 			spy.$nav = this;
 			$.extend(offsets, newOffset)
 			
@@ -54,10 +54,10 @@
 			}
 		},
 
-		scrollCheck: function(scroll) {
+		_scrollCheck: function(scroll) {
 			if (scroll < spy.min || scroll > spy.max ) {
-				spy.deactivate(spy.current)
-				spy.exit();
+				spy.current && spy.exit();
+				spy.current && spy.deactivate(spy.current)
 
 			} else {
 				!spy.inBounds && spy.enter();
@@ -75,7 +75,7 @@
 
 		deactivate: function(link) {
 			spy.$nav.trigger("ns.deactivate", $(link));
-			$(link).removeClass("active");
+			spy.$nav.find(".active").removeClass("active");
 			spy.current = null
 		},
 	
@@ -102,15 +102,15 @@
 
 		unpause: function() {
 			spy.paused = false;
-			spy.scrollCheck($(window).scrollTop());	
+			spy._scrollCheck($(window).scrollTop());	
 		},
 	};
 
-	$.fn.navspy = function( arguments ) {
+	$.fn.navspy = function() {
 
 		$(window).bind("scroll", function() {
 			if (!spy.paused) {
-				spy.scrollCheck($(window).scrollTop());	
+				spy._scrollCheck($(window).scrollTop());	
 			}
 		});
 
@@ -118,10 +118,14 @@
 			spy._setBounds();
 		});
 
-		if ( spy[ arguments ] ) {
-			return spy[ arguments ].apply( this, Array.prototype.slice.call( arguments, 1 ));
-		} else if ( typeof arguments  === 'object' || !arguments ) {
-			return spy.init.call( this, arguments );
+
+		if ( spy[ arguments[0] ] ) {
+			return spy[ arguments[0] ].call( 
+				this, 
+				Array.prototype.slice.call( arguments, 1 )
+			);
+		} else if ( typeof arguments[0] === 'object' || !arguments ) {
+			return spy._init.call( this, arguments[0] );
 		} else {
 			$.error( 'Unknown method called' );
 		}    

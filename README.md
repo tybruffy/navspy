@@ -70,14 +70,18 @@ Currently, the `link` variable points to the ID of the menu item that is activat
 
 ##Methods
 
-There are two methods available to you, `pause` and `unpause`.
+There are four methods available to you, `pause` and `unpause`.
 
 ```js
 $(".scrollspy-nav").navspy("pause");
 $(".scrollspy-nav").navspy("unpause");
+$(".scrollspy-nav").navspy("activate", $("#new-item"));
+$(".scrollspy-nav").navspy("deactivate", $(".active"));
 ```
 
 The pause method will stop any new items from being activated by scrolling until the unpause event is called.  When the unpause event is called it will check your scroll position and activate a new menu item if need be.
+
+The element passed to activate and deactivate can be a jQuery object or any jQuery selector.  For deactivate, the element is what will be passed to the deactivate event.
 
 ##Other Features
 
