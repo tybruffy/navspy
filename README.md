@@ -87,3 +87,7 @@ The element passed to activate and deactivate can be a jQuery object or any jQue
 
 Navspy will also update it's data when the window is resized.
 
+##Todos
+- Add option to set last item to active when at bottom of window.
+- Speed up scrollCheck() by breaking for loop when active item is found.
+
