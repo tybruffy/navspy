@@ -91,9 +91,7 @@ The element passed to activate and deactivate can be a jQuery object or any jQue
 Navspy will also update it's data when the window is resized.
 
 ##Todos
-- [x] Add option to set last item to active when at bottom of window.
-- [x] Speed up scrollCheck() by breaking for loop when active item is found.
-- [ ] Remove listener for document.resize, shouldn't be part of plugin.
-- [ ] As part of the above, make the reset function "publicly" available.
-- [ ] Fix the rest of this readme.
+-Remove listener for document.resize, shouldn't be part of plugin.
+-As part of the above, make the reset function "publicly" available.
+-Fix the rest of this readme.
 
