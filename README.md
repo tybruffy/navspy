@@ -1,13 +1,15 @@
 #NavSpy
 
-This is a jQuery plugin similar to Bootstrap's Scrollspy.  It attempts to accomplish the same thing, but be easier to use and provide a few additional features.
+This is a jQueryUI plugin similar to Bootstrap's Scrollspy.  It attempts to accomplish the same thing, while providing a few additional features.
 
 ##Basic Usage
 
 This shows the minimum code needed to make navspy work.
 
 ```html
-<ul class="navspy-menu"></ul>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+<ul class="navspy-menu">
     <li class="menu-item" data-spy-on="#section1" id="menu-section1">
         <a href="#section1">Section 1</a>
     </li>
@@ -35,6 +37,7 @@ $(".scrollspy-nav").navspy();
 ```
 
 The minimum requirements here are:
+
 1. A containing element to call `navspy()` on.
 2. Within that container, items must have a `data-spy-on` attribute which points to the section it should link to.  This same element must also have aa unique ID attribute.  It doesn't matter what the ID is, so long as it has one.
 3. Content with the ID listed in the `data-spy-on` attribute.
@@ -45,7 +48,7 @@ This example shows how to set an offset for the activation of menu items.  This 
 
 ```js
 $(".scrollspy-nav").navspy({
-	top: 125	
+    top: 125    
 })
 ```
 
@@ -55,7 +58,7 @@ NavSpy has a few events that you can hook into. Here's how to use them:
 
 ```js
 $(".scrollspy-nav").bind("ns.activate", function(e, link) {
-	// Your code here
+    // Your code here
 });
 ```
 
@@ -70,7 +73,7 @@ Currently, the `link` variable points to the ID of the menu item that is activat
 
 ##Methods
 
-There are four methods available to you, `pause` and `unpause`.
+There are four methods available outside the plugin, `pause` and `unpause`.
 
 ```js
 $(".scrollspy-nav").navspy("pause");
@@ -90,4 +93,7 @@ Navspy will also update it's data when the window is resized.
 ##Todos
 - [x] Add option to set last item to active when at bottom of window.
 - [x] Speed up scrollCheck() by breaking for loop when active item is found.
+- [ ] Remove listener for document.resize, shouldn't be part of plugin.
+- [ ] As part of the above, make the reset function "publicly" available.
+- [ ] Fix the rest of this readme.
 
