@@ -20,13 +20,13 @@ This shows the minimum code needed to make navspy work.
 </ul>
 
 <div id="section1">
-    <!-- Content! -->    		
+    <!-- Content! -->
 </div>
 <div id="section2">
-    <!-- Content! -->        	
+    <!-- Content! -->
 </div>
 <div id="section3">
-    <!-- Content! -->        	
+    <!-- Content! -->
 </div>
 ```
 
@@ -88,6 +88,6 @@ The element passed to activate and deactivate can be a jQuery object or any jQue
 Navspy will also update it's data when the window is resized.
 
 ##Todos
-- Add option to set last item to active when at bottom of window.
-- Speed up scrollCheck() by breaking for loop when active item is found.
+- [x] Add option to set last item to active when at bottom of window.
+- [x] Speed up scrollCheck() by breaking for loop when active item is found.
 
