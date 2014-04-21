@@ -32,20 +32,23 @@ $.widget('jake.navspy', {
 	 * Initialization function for the navspy jQuery plugin.
 	 */
 	_create: function () {
+		this.element.uniqueId();
+		this.uid = this.element.attr("id");
+
 		this._setOptions({
 			'top':    this.options.top,
 			'bottom': this.options.bottom,
 			'bottomOut': this.options.bottomOut,
 		});
-		
+
 		this._addListeners();
-		this._reset();
+		this.refresh();
 	},
 
 	/**
 	 * Re-initializes the navspy jQuery plugin.
 	 */
-	_reset: function() {
+	refresh: function() {
 		this.targets = {};
 		this._setTargets();
 		this._setBounds();
@@ -86,16 +89,12 @@ $.widget('jake.navspy', {
 	 */
 	_addListeners: function() {
 		var self = this
-		$(window).on("scroll.navspy", function() {
+		$(window).on("scroll.navspy." + this.uid, function() {
 			self._scrollCheck();
 		});
 		
-		$(window).on("resize.navspy", function() {
-			self._reset();
-		});
-		// Requires http://benalman.com/projects/jquery-resize-plugin/
-		$(document).on("resize.navspy", function() {
-			self._reset();
+		$(window).on("resize.navspy." + this.uid, function() {
+			self.refresh();
 		});
 	},
 
@@ -109,10 +108,9 @@ $.widget('jake.navspy', {
 	 * was removed.
 	 */
 	_destroy: function () {
-		$(window).off("scroll.navspy");
-		$(window).off("resize.navspy");
-		$(document).off("resize.navspy");
-		$.Widget.prototype.destroy.call( this );
+		this._trigger( "destroy", null, [this.element]);
+		$(window).off("scroll.navspy." + this.uid);
+		$(window).off("resize.navspy." + this.uid);
 	},
 
 	/**
@@ -169,7 +167,6 @@ $.widget('jake.navspy', {
 		if ( this.paused ) {
 			return false;
 		}
-
 		var scroll = $(window).scrollTop()
 
 		if ( !this._within(scroll, this.min, this.max) ) {
@@ -240,7 +237,7 @@ $.widget('jake.navspy', {
 	 * @param  {String} link jQuery selector for the target to deactivate.
 	 */
 	deactivate: function(link) {
-		this.element.trigger("deactivate", $(link));
+		this._trigger( "deactivate", null, [$(link)]);
 		this.element.find(".active").removeClass("active");
 		this.active = null
 	},
