@@ -46,16 +46,6 @@ $.widget('jake.navspy', {
 	},
 
 	/**
-	 * Re-initializes the navspy jQuery plugin.
-	 */
-	refresh: function() {
-		this.targets = {};
-		this._setTargets();
-		this._setBounds();
-		this._scrollCheck();
-	},
-
-	/**
 	 * Saves the target menu items in an array.
 	 *
 	 * Since navspy is meant to be called on a set of menu items, this saves
@@ -190,11 +180,35 @@ $.widget('jake.navspy', {
 	 */
 	_maybeActivate: function(target, position) {
 		if (this._within(position, this.targets[target].top, this.targets[target].bottom)) {
-			!this._isActive(target) && this.deactivate(this.active)
-			!this._isActive(target) && this.activate(target)
-			return true;
+			return this._swapActive(target);
 		}
 		return false;
+	},
+
+	/**
+	 * Determines if the last spy should activate due to page length limitations.
+	 * @param  {Integer} position The current scroll position.
+	 * @return {Boolean}          True if bottomed out, false if not.
+	 */
+	_bottomOut: function(position) {
+		if ( position + window.innerHeight >= $(document).height() && position < this.max ) {
+			return this._swapActive(this.last);
+		}
+		return false;
+	},
+
+	/**
+	 * Takes a given target and activates it while deactivating the previously
+	 * active target.
+	 * @param  {String} target The name of the target to activate.
+	 * @return {Boolean}       Returns true.
+	 */
+	_swapActive: function(target) {
+		if ( !this._isActive(target) ) {
+			this.deactivate(this.active)
+			this.activate(target)
+		}
+		return true;	
 	},
 
 	/**
@@ -218,17 +232,13 @@ $.widget('jake.navspy', {
 	},
 
 	/**
-	 * Determines if the last spy should activate due to page length limitations.
-	 * @param  {Integer} position The current scroll position.
-	 * @return {Boolean}          True if bottomed out, false if not.
+	 * Sets/Resets the navspy targets and bounds.
 	 */
-	_bottomOut: function(position) {
-		if ( position + window.innerHeight >= $(document).height() && position < this.max ) {
-			!this._isActive(this.last) && this.deactivate(this.active)
-			!this._isActive(this.last) && this.activate(this.last)
-			return true;
-		}
-		return false;
+	refresh: function() {
+		this.targets = {};
+		this._setTargets();
+		this._setBounds();
+		this._scrollCheck();
 	},
 
 	/**
